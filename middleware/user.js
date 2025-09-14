@@ -39,7 +39,7 @@ const sessionMiddleware = session({
   rolling: false, 
   cookie: {
     maxAge: 1000 * 60 * 60,
-    secure: false, 
+    secure: true, 
     httpOnly: false, 
     sameSite: 'lax',
     domain: undefined
