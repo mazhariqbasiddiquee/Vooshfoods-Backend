@@ -39,9 +39,9 @@ const sessionMiddleware = session({
   rolling: false, 
   cookie: {
     maxAge: 1000 * 60 * 60,
-    secure: false, 
-    httpOnly: true, 
-    sameSite: 'lax' 
+    secure: true, 
+    httpOnly: false, 
+    sameSite: 'none'
   }
 });
 
