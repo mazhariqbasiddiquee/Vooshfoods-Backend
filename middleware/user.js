@@ -8,20 +8,24 @@ class FixedTTLRedisStore extends RedisStore {
     try {
       const key = this.prefix + sid;
       
-    
       const currentTTL = await client.ttl(key);
       
-     
       await client.setEx(key, this.ttl, JSON.stringify(sess));
-      
       
       if (currentTTL > 0) {
         await client.expire(key, currentTTL);
       }
       
-      if (callback) callback();
+      // Get the session data after setting
+      const retrievedSession = await client.get(key);
+      const sessionData = retrievedSession ? JSON.parse(retrievedSession) : null;
+      console.log(sessionData,"sessionData after set");
+      
+      if (callback) callback(null, sessionData);
+      return sessionData;
     } catch (err) {
       if (callback) callback(err);
+      throw err;
     }
   }
 }
