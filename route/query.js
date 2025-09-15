@@ -2,7 +2,7 @@ const express = require('express');
 const searchRouter = express.Router();
 const { askGemini } = require('../util/geminiai.js')
 const { queryPinecone, getAllDocuments, fetchDocumentsPaginated } = require('../util/query.js'); 
-const { sessionMiddleware, sessionTtlMiddleware,logSessionDetails } = require('../middleware/user.js');
+const { sessionMiddleware, sessionTtlMiddleware } = require('../middleware/user.js');
 
 
 
@@ -36,7 +36,7 @@ searchRouter.get("/all-documents", async(req, res) => {
     }
 });
 
-searchRouter.post('/query',sessionMiddleware,logSessionDetails,sessionTtlMiddleware, async (req, res) => {
+searchRouter.post('/query',sessionMiddleware,sessionTtlMiddleware, async (req, res) => {
     try {
         const questions = req.body.query;
         

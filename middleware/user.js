@@ -21,7 +21,7 @@ class FixedTTLRedisStore extends RedisStore {
       // Get the session data after setting
       const retrievedSession = await client.get(key);
       const sessionData = retrievedSession ? JSON.parse(retrievedSession) : null;
-      console.log(sessionData,"sessionData after set");
+     
       
       if (callback) callback(null);
       return sessionData;
@@ -50,14 +50,6 @@ const sessionMiddleware = session({
   }
 });
 
-const logSessionDetails = async(req, res, next) => {
-  console.log('Session ID:', req.sessionID);
-  console.log('Session Data:', req.session);
-  console.log('Cookies:', req.headers.cookie);
- 
-  
-  next();
-}
 
 const sessionTtlMiddleware = async (req, res, next) => {
   try {
