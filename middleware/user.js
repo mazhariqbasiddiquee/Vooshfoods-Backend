@@ -45,7 +45,7 @@ const sessionMiddleware = session({
     secure: true, 
     httpOnly: false, 
     sameSite: 'none',
-    domain: "vooshfoods-backend-qh78.onrender.com",
+   
    
   }
 });
@@ -54,7 +54,7 @@ const logSessionDetails = async(req, res, next) => {
   console.log('Session ID:', req.sessionID);
   console.log('Session Data:', req.session);
   console.log('Cookies:', req.headers.cookie);
-  req.headers.cookie=req.sessionID
+ 
   
   next();
 }

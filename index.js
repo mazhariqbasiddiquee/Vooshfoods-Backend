@@ -4,7 +4,7 @@ const app=express();
 const searchRouter=require('./route/query.js');
 const cors = require('cors');
 
-
+app.enable('trust proxy');
 
 
 
