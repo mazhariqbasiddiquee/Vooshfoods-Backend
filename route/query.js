@@ -90,8 +90,18 @@ searchRouter.post('/query',sessionMiddleware,sessionTtlMiddleware, async (req, r
             });
             
           ;
+            // Explicitly set cookie in response
+            res.cookie('sessionid', req.sessionID, {
+                maxAge: 1000 * 60 * 60,
+                secure: true,
+                httpOnly: false,
+                sameSite: 'none',
+                path: '/'
+            });
+            
             return res.status(200).json({
                 message: botResponse,
+                sessionId: req.sessionID,
                 timestamp: new Date().toISOString(),
                 expiresAt: new Date(Date.now() + (req.sessionTTL * 1000)).toISOString()
             });
