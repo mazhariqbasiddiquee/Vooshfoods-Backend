@@ -42,7 +42,7 @@ const sessionMiddleware = session({
     secure: true, 
     httpOnly: false, 
     sameSite: 'none',
-    domain: "https://vooshfoods-frontend-six.vercel.app/"  
+  
   }
 });
 
