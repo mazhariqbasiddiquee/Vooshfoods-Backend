@@ -45,8 +45,8 @@ const sessionMiddleware = session({
     secure: true, 
     httpOnly: false, 
     sameSite: 'none',
-    domain: undefined,
-    path: '/'
+    domain: "vooshfoods-backend-qh78.onrender.com",
+   
   }
 });
 
