@@ -130,6 +130,15 @@ searchRouter.post('/query',sessionMiddleware,sessionTtlMiddleware, async (req, r
 });
 
 
+searchRouter.get('/test-session', sessionMiddleware, (req, res) => {
+    req.session.test = 'working';
+    res.json({
+        sessionId: req.sessionID,
+        cookies: req.headers.cookie,
+        session: req.session
+    });
+});
+
 searchRouter.post('/clear-session', sessionMiddleware, sessionTtlMiddleware, (req, res) => {
     console.log('Clearing session for ID:', req.sessionID);
     req.session.destroy(err => {

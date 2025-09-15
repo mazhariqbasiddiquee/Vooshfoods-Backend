@@ -10,8 +10,10 @@ class FixedTTLRedisStore extends RedisStore {
       
       const currentTTL = await client.ttl(key);
       
+      // Set session with TTL
       await client.setEx(key, this.ttl, JSON.stringify(sess));
       
+      // Only preserve TTL if session existed and had valid TTL
       if (currentTTL > 0) {
         await client.expire(key, currentTTL);
       }
@@ -21,7 +23,7 @@ class FixedTTLRedisStore extends RedisStore {
       const sessionData = retrievedSession ? JSON.parse(retrievedSession) : null;
       console.log(sessionData,"sessionData after set");
       
-      if (callback) callback(null, sessionData);
+      if (callback) callback(null);
       return sessionData;
     } catch (err) {
       if (callback) callback(err);
@@ -42,7 +44,9 @@ const sessionMiddleware = session({
     maxAge: 1000 * 60 * 60,
     secure: true, 
     httpOnly: false, 
-    sameSite: 'none'
+    sameSite: 'none',
+    domain: undefined,
+    path: '/'
   }
 });
 
