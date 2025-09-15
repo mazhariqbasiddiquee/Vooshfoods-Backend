@@ -3,7 +3,7 @@ require('dotenv').config();
 const app=express();
 const searchRouter=require('./route/query.js');
 const cors = require('cors');
-const { logSessionDetails} = require('./middleware/user.js');
+
 
 
 
@@ -13,7 +13,7 @@ app.use(cors({
   origin: [process.env.Allowed_Hosts, 'http://localhost:5173'], 
   credentials: true                 
 }))
-app.use(logSessionDetails)
+
 
 
 app.use('/search',searchRouter);
