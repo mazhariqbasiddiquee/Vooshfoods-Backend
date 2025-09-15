@@ -33,16 +33,16 @@ class FixedTTLRedisStore extends RedisStore {
 
 const sessionMiddleware = session({
   store: new FixedTTLRedisStore({ client: client, ttl: 60 * 60 }),
-  secret: 'mySecretKey',
+  secret: process.env.SESSION_SECRET || 'mySecretKey',
+  name: 'sessionid',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   rolling: false, 
   cookie: {
     maxAge: 1000 * 60 * 60,
     secure: true, 
     httpOnly: false, 
-    sameSite: 'none',
-  
+    sameSite: 'none'
   }
 });
 
@@ -50,6 +50,7 @@ const sessionMiddleware = session({
 const sessionTtlMiddleware = async (req, res, next) => {
   try {
     const sessionId = req.sessionID;
+    console.log(sessionId,"sessionId in ttl middleware");
 
     if (!sessionId) {
       return res.status(400).json({ error: 'Session ID not found' });
@@ -57,24 +58,12 @@ const sessionTtlMiddleware = async (req, res, next) => {
 
     
     const sessionExists = await client.exists(`sess:${sessionId}`);
+    console.log(sessionExists,"sessionExists");
     
-    if (!sessionExists) {
-      console.log(`🆕 NEW SESSION CREATED: ${sessionId}`);
-      console.log(`⏰ Session created at: ${new Date().toISOString()}`);
-    
-      req.session.history = [];
-      req.session.createdAt = Date.now();
-    } else {
-      console.log(`♻️  Existing session: ${sessionId}`);
-    }
-
     const ttl = await client.ttl(`sess:${sessionId}`);
     console.log(`Session ID: ${sessionId}, TTL: ${ttl} seconds`);
     
-    if (ttl === 3600) {
-      console.log(`🔄 TTL reset to 3600s (session was modified/saved)`);
-    }
-
+  
     req.sessionTTL = ttl;
 
     next();
