@@ -77,4 +77,4 @@ const sessionTtlMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = { sessionMiddleware, sessionTtlMiddleware ,logSessionDetails};
+module.exports = { sessionMiddleware, sessionTtlMiddleware};
