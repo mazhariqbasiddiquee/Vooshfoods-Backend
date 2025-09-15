@@ -95,7 +95,6 @@ searchRouter.post('/query',sessionMiddleware,logSessionDetails,sessionTtlMiddlew
             
             return res.status(200).json({
                 message: botResponse,
-                sessionId: req.sessionID,
                 timestamp: new Date().toISOString(),
                 expiresAt: new Date(Date.now() + (req.sessionTTL * 1000)).toISOString()
             });
